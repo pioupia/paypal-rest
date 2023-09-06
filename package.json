@@ -1,0 +1,25 @@
+{
+  "name": "paypal-ts-sdk",
+  "version": "1.0.0-ALPHA",
+  "description": "SDK for PayPal",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pioupia/paypal-ts-sdk.git"
+  },
+  "keywords": [
+    "paypal",
+    "SDK",
+    "rest",
+    "API"
+  ],
+  "author": "Pioupia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pioupia/paypal-ts-sdk/issues"
+  },
+  "homepage": "https://github.com/pioupia/paypal-ts-sdk#readme"
+}
