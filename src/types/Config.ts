@@ -5,5 +5,6 @@ export interface ConfigProps {
 }
 
 export interface PrivateConfigProps extends ConfigProps {
-    base_url: 'https://api-m.sandbox.paypal.com/' | 'https://api-m.paypal.com/'
+    base_url: 'https://api-m.sandbox.paypal.com/' | 'https://api-m.paypal.com/',
+    access_token?: string;
 }

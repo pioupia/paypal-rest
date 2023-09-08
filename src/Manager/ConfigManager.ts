@@ -15,3 +15,11 @@ export default function config({ mode, client_id, client_secret }: Required<Conf
     else
         default_configuration.base_url = 'https://api-m.paypal.com/';
 }
+
+export function getConfig() {
+    return Object.freeze(default_configuration);
+}
+
+export function setAccessToken(access_token: string) {
+    default_configuration.access_token = access_token;
+}
