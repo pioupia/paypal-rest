@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/pioupia/paypal-ts-sdk/issues"
   },
-  "homepage": "https://github.com/pioupia/paypal-ts-sdk#readme"
+  "homepage": "https://github.com/pioupia/paypal-ts-sdk#readme",
+  "devDependencies": {
+    "@types/node": "^20.5.9"
+  }
 }
