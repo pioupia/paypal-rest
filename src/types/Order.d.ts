@@ -1,4 +1,7 @@
+import UnitBuilder from "../Manager/Unit";
+
 type acceptedCurrencyCodes = 'AUD' | 'BRL' | 'CAD' | 'CNY' | 'CZK' | 'DKK' | 'EUR' | 'HKD' | 'HUF' | 'ILS' | 'JPY' | 'MYR' | 'MXN' | 'TWD' | 'NZD' | 'NOK' | 'PHP' | 'PLN' | 'GBP' | 'RUB' | 'SGD' | 'SEK' | 'CHF' | 'THB' | 'USD';
+export type CategoryType = 'DIGITAL_GOODS' | 'PHYSICAL_GOODS' | 'DONATION';
 
 export enum CurrencyCodes {
     AustralianDollar = 'AUD',
@@ -31,4 +34,20 @@ export enum CurrencyCodes {
 export interface Amount {
     currency_code: acceptedCurrencyCodes;
     value: number;
+}
+
+export interface PurchaseUnitBuilderProps extends Partial<Amount> {
+    /**
+     * Automatic price overwrite according to currency code
+     */
+    overwritePrice?: boolean;
+}
+
+export interface ItemsBuilderProps {
+    name: string;
+    quantity: number;
+    unit_amount: UnitBuilder;
+    description?: string;
+    sku?: string;
+    category?: CategoryType;
 }
