@@ -12,7 +12,7 @@ export default function config({ mode, client_id, client_secret }: ConfigProps) 
     default_configuration.client_id = client_id;
     default_configuration.client_secret = client_secret;
 
-    if (mode === 'sandbox')
+    if (default_configuration.mode === 'sandbox')
         default_configuration.base_url = 'https://api-m.sandbox.paypal.com/';
     else
         default_configuration.base_url = 'https://api-m.paypal.com/';
