@@ -1,4 +1,5 @@
 import UnitBuilder from "../Builders/UnitBuilder";
+import PurchaseUnitBuilder from "../Builders/PurchaseUnitBuilder";
 
 type acceptedCurrencyCodes = 'AUD' | 'BRL' | 'CAD' | 'CNY' | 'CZK' | 'DKK' | 'EUR' | 'HKD' | 'HUF' | 'ILS' | 'JPY' | 'MYR' | 'MXN' | 'TWD' | 'NZD' | 'NOK' | 'PHP' | 'PLN' | 'GBP' | 'RUB' | 'SGD' | 'SEK' | 'CHF' | 'THB' | 'USD';
 export type CategoryType = 'DIGITAL_GOODS' | 'PHYSICAL_GOODS' | 'DONATION';
@@ -50,4 +51,22 @@ export interface ItemsBuilderProps {
     description?: string;
     sku?: string;
     category?: CategoryType;
+}
+
+
+interface PayPalPreferences {
+    brand_name: string;
+    shipping_preference: 'GET_FROM_FILE' | 'NO_SHIPPING' | 'SET_PROVIDED_ADDRESS';
+    landing_page: 'LOGIN' | 'GUEST_CHECKOUT' | 'NO_PREFERENCE';
+    user_action: 'CONTINUE' | 'PAY_NOW';
+    payment_method_preference: 'UNRESTRICTED' | 'IMMEDIATE_PAYMENT_REQUIRED';
+    locale: string;
+    return_url: string;
+    cancel_url: string;
+}
+
+export interface OrderProps {
+    purchase_units: PurchaseUnitBuilder[];
+    intent?: 'CAPTURE' | 'AUTHORIZE';
+    paypal?: Partial<PayPalPreferences>;
 }
