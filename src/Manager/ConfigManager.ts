@@ -19,7 +19,7 @@ export default function config({ mode, client_id, client_secret }: ConfigProps) 
 }
 
 export function getConfig() {
-    return Object.freeze(default_configuration);
+    return Object.freeze({ ...default_configuration });
 }
 
 export function setAccessToken(access_token: string) {
