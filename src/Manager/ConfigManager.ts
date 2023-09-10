@@ -5,8 +5,10 @@ const default_configuration: PrivateConfigProps = {
     base_url: 'https://api-m.sandbox.paypal.com/'
 }
 
-export default function config({ mode, client_id, client_secret }: Required<ConfigProps>) {
-    default_configuration.mode = mode;
+export default function config({ mode, client_id, client_secret }: ConfigProps) {
+    if (mode)
+        default_configuration.mode = mode;
+
     default_configuration.client_id = client_id;
     default_configuration.client_secret = client_secret;
 
