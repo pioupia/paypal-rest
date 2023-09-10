@@ -1,11 +1,11 @@
-import { CurrencyCodes, PurchaseUnitBuilderProps } from "../types/Order";
+import { CurrencyCodes, PurchaseUnitBuilderProps, UnitBuilderJSON, acceptedCurrencyCodes } from "../types/Order";
 import PaypalTSError from "../Manager/Errors";
 
 
 const floatingCurrency = ['HUF', 'JPY', 'TWD'];
 
 export default class UnitBuilder {
-    private currency_code: string;
+    private currency_code: CurrencyCodes | acceptedCurrencyCodes;
     private value: number;
     private readonly overwritePrice: boolean;
 
@@ -43,7 +43,7 @@ export default class UnitBuilder {
         return this;
     }
 
-    toJSON() {
+    toJSON(): Readonly<UnitBuilderJSON> {
         this.verifyData();
 
         return Object.freeze(
