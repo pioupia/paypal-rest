@@ -1,5 +1,5 @@
 import { CurrencyCodes, PurchaseUnitBuilderProps } from "../types/Order";
-import PaypalTSError from "./Errors";
+import PaypalTSError from "../Manager/Errors";
 
 
 const floatingCurrency = ['HUF', 'JPY', 'TWD'];

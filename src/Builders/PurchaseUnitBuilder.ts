@@ -1,6 +1,6 @@
 import { Amount, CurrencyCodes, PurchaseUnitBuilderProps } from "../types/Order";
-import PaypalTSError from "./Errors";
-import UnitBuilder from "./Unit";
+import PaypalTSError from "../Manager/Errors";
+import UnitBuilder from "./UnitBuilder";
 import ItemsBuilder from "./ItemsBuilder";
 
 export default class PurchaseUnitBuilder {

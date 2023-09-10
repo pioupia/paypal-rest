@@ -1,6 +1,6 @@
 import { Amount, CategoryType, ItemsBuilderProps } from "../types/Order";
-import UnitBuilder from "./Unit";
-import PaypalTSError from "./Errors";
+import UnitBuilder from "./UnitBuilder";
+import PaypalTSError from "../Manager/Errors";
 
 export default class ItemsBuilder {
     private name: string;
