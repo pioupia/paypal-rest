@@ -1,7 +1,7 @@
 import UnitBuilder from "../Builders/UnitBuilder";
 import PurchaseUnitBuilder from "../Builders/PurchaseUnitBuilder";
 
-type acceptedCurrencyCodes = 'AUD' | 'BRL' | 'CAD' | 'CNY' | 'CZK' | 'DKK' | 'EUR' | 'HKD' | 'HUF' | 'ILS' | 'JPY' | 'MYR' | 'MXN' | 'TWD' | 'NZD' | 'NOK' | 'PHP' | 'PLN' | 'GBP' | 'RUB' | 'SGD' | 'SEK' | 'CHF' | 'THB' | 'USD';
+export type acceptedCurrencyCodes = 'AUD' | 'BRL' | 'CAD' | 'CNY' | 'CZK' | 'DKK' | 'EUR' | 'HKD' | 'HUF' | 'ILS' | 'JPY' | 'MYR' | 'MXN' | 'TWD' | 'NZD' | 'NOK' | 'PHP' | 'PLN' | 'GBP' | 'RUB' | 'SGD' | 'SEK' | 'CHF' | 'THB' | 'USD';
 export type CategoryType = 'DIGITAL_GOODS' | 'PHYSICAL_GOODS' | 'DONATION';
 
 export enum CurrencyCodes {
@@ -33,7 +33,7 @@ export enum CurrencyCodes {
 }
 
 export interface Amount {
-    currency_code: acceptedCurrencyCodes;
+    currency_code: acceptedCurrencyCodes | CurrencyCodes;
     value: number;
 }
 
@@ -69,4 +69,36 @@ export interface OrderProps {
     purchase_units: PurchaseUnitBuilder[];
     intent?: 'CAPTURE' | 'AUTHORIZE';
     paypal?: Partial<PayPalPreferences>;
+}
+
+export interface UnitBuilderJSON {
+    currency_code: CurrencyCodes | acceptedCurrencyCodes;
+    value: string;
+}
+
+export interface ItemsBuilderJSON {
+    name: string;
+    unit_amount: UnitBuilderJSON;
+    quantity: string;
+    description?: string;
+    sku?: string;
+    category?: CategoryType;
+}
+
+export interface PayPalItemsBreakdown {
+    item_total: {
+        currency_code: CurrencyCodes | acceptedCurrencyCodes;
+        value: number | string;
+    }
+}
+
+export interface PayPalBreakdown {
+    breakdown: PayPalItemsBreakdown;
+}
+
+export interface PurchaseUnitBuilderJSON {
+    amount: UnitBuilderJSON & Partial<PayPalBreakdown>;
+    reference_id?: string;
+    description?: string;
+    items?: ItemsBuilderJSON[];
 }

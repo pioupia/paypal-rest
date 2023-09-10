@@ -1,4 +1,4 @@
-import { Amount, CurrencyCodes, PurchaseUnitBuilderProps } from "../types/Order";
+import { Amount, CurrencyCodes, PurchaseUnitBuilderJSON, PurchaseUnitBuilderProps } from "../types/Order";
 import PaypalTSError from "../Manager/Errors";
 import UnitBuilder from "./UnitBuilder";
 import ItemsBuilder from "./ItemsBuilder";
@@ -51,14 +51,39 @@ export default class PurchaseUnitBuilder {
         return this;
     }
 
-    toJSON() {
-        return Object.freeze(
-            {
-                reference_id: this.reference_id,
-                description: this.description,
-                amount: JSON.stringify(this.amount),
-                items: this.items.map(i => i.toJSON())
+    toJSON(): Readonly<PurchaseUnitBuilderJSON> {
+        const data: PurchaseUnitBuilderJSON = {
+            amount: {
+                ...this.amount.toJSON()
             }
-        );
+        }
+
+        if (this.reference_id)
+            data.reference_id = this.reference_id;
+
+        if (this.description)
+            data.description = this.description;
+
+        if (this.items.length) {
+            const length = this.items.length;
+            data.items = new Array(length);
+
+            data.amount.breakdown = {
+                item_total: {
+                    currency_code: this.items[0].toJSON().unit_amount.currency_code,
+                    value: 0
+                }
+            }
+
+            for (let i = 0; i < length; i++) {
+                const item = this.items[i].toJSON();
+                data.items[i] = item;
+                (data.amount.breakdown.item_total.value as number) += Number(item.unit_amount.value) * Number(item.quantity);
+            }
+
+            data.amount.breakdown.item_total.value = data.amount.breakdown.item_total.value.toString();
+        }
+
+        return Object.freeze(data);
     }
 }

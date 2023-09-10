@@ -1,4 +1,4 @@
-import { Amount, CategoryType, ItemsBuilderProps } from "../types/Order";
+import { Amount, CategoryType, ItemsBuilderJSON, ItemsBuilderProps } from "../types/Order";
 import UnitBuilder from "./UnitBuilder";
 import PaypalTSError from "../Manager/Errors";
 
@@ -76,16 +76,20 @@ export default class ItemsBuilder {
 
     toJSON() {
         this.verifyData();
-        return Object.freeze(
-            {
-                name: this.name,
-                unit_amount: this.unit_amount,
-                quantity: this.quantity.toString(),
-                description: this.description,
-                sku: this.sku,
-                category: this.category
-            }
-        )
+        const data: ItemsBuilderJSON = {
+            name: this.name,
+            unit_amount: this.unit_amount.toJSON(),
+            quantity: this.quantity.toString()
+        }
+
+        if (this.description)
+            data.description = this.description;
+        if (this.sku)
+            data.sku = this.sku;
+        if (this.category)
+            data.category = this.category;
+
+        return Object.freeze(data);
     }
 
     private verifyData() {
