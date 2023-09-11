@@ -4,6 +4,7 @@ import { order } from "./Manager/OrderManager";
 import PurchaseUnitBuilder from "./Builders/PurchaseUnitBuilder";
 import ItemsBuilder from './Builders/ItemsBuilder';
 import UnitBuilder from './Builders/UnitBuilder';
+import { CurrencyCodes } from './types/Order';
 
 
-export { config, auth, order, PurchaseUnitBuilder, UnitBuilder, ItemsBuilder };
+export { config, auth, order, PurchaseUnitBuilder, UnitBuilder, ItemsBuilder, CurrencyCodes };
