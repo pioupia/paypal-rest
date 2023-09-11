@@ -1,5 +1,5 @@
-import { getConfig, setAccessToken } from "./ConfigManager";
-import PaypalTSError, { configError } from "./Errors";
+import { getConfig, setAccessToken } from "./Config";
+import PaypalTSError, { configError } from "../Manager/Errors";
 
 export default function auth(): Promise<boolean> {
     return new Promise(async (resolve, reject) => {

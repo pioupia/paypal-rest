@@ -1,6 +1,6 @@
 import { OrderManagerResponse, OrderProps } from "../types/Order";
-import { getConfig } from "./ConfigManager";
-import PaypalTSError, { configError } from "./Errors";
+import { getConfig } from "./Config";
+import PaypalTSError, { configError } from "../Manager/Errors";
 
 export function order({ purchase_units, intent = 'CAPTURE', paypal }: OrderProps): Promise<OrderManagerResponse> {
     return new Promise(async (resolve) => {
