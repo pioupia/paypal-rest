@@ -1,12 +1,12 @@
 interface ConfigMode {
     mode: 'sandbox' | 'live';
     auto_renew: boolean;
+    token_expire_at: number;
 }
 
 export interface ConfigProps extends Partial<ConfigMode> {
     client_id: string;
     client_secret: string;
-    auto_renew?: boolean;
 }
 
 type ConfigExtendedProps = Omit<Partial<ConfigProps>, 'mode' | 'auto_renew'> & ConfigMode;

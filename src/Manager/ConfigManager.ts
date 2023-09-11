@@ -3,10 +3,11 @@ import { ConfigProps, PrivateConfigProps } from "../types/Config";
 const default_configuration: PrivateConfigProps = {
     mode: 'sandbox',
     base_url: 'https://api-m.sandbox.paypal.com/',
-    auto_renew: true
+    auto_renew: true,
+    token_expire_at: 0
 }
 
-export default function config({ mode, client_id, client_secret, auto_renew }: ConfigProps) {
+export default function config({ mode, client_id, client_secret, auto_renew }: Omit<ConfigProps, 'token_expire_at'>) {
     if (mode)
         default_configuration.mode = mode;
 
@@ -26,6 +27,7 @@ export function getConfig() {
     return Object.freeze({ ...default_configuration });
 }
 
-export function setAccessToken(access_token: string) {
+export function setAccessToken(access_token: string, expireIn: number) {
     default_configuration.access_token = access_token;
+    default_configuration.token_expire_at = Date.now() + (expireIn * 1_000);
 }
