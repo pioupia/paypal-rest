@@ -42,6 +42,9 @@ export function captureOrder(id: string) {
     return new Promise(async (resolve) => {
         const { base_url, access_token } = getConfig();
 
+        if (!access_token)
+            return configError();
+
         try {
             const url = base_url + `v2/checkout/orders/${id}/capture`;
             const response = await fetch(url, {
