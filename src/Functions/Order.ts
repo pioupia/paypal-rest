@@ -1,15 +1,9 @@
 import { OrderManagerResponse, OrderProps } from "../types/Order";
-import { getConfig } from "./Config";
-import PaypalTSError, { configError } from "../Manager/Errors";
+import PaypalTSError from "../Manager/Errors";
+import requestManager from "../Manager/RequestManager";
 
 export function order({ purchase_units, intent = 'CAPTURE', paypal }: OrderProps): Promise<OrderManagerResponse> {
     return new Promise(async (resolve) => {
-        const { base_url, access_token } = getConfig();
-
-        if (!access_token)
-            return configError();
-
-        const url = base_url + 'v2/checkout/orders';
         const payload = {
             intent: intent || 'CAPTURE',
             purchase_units: purchase_units.map(p => p.toJSON()),
@@ -21,16 +15,14 @@ export function order({ purchase_units, intent = 'CAPTURE', paypal }: OrderProps
         };
 
         try {
-            const response = await fetch(url, {
+            const json: OrderManagerResponse = await requestManager(`v2/checkout/orders`, {
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: 'Bearer ' + access_token,
+                    "Content-Type": "application/json"
                 },
-                method: "POST",
-                body: JSON.stringify(payload),
+                body: JSON.stringify(payload)
             });
 
-            const json: OrderManagerResponse = await response.json();
             return resolve(json);
         } catch(e) {
             throw new PaypalTSError("An error has occurred during the order creation. Error: " + e);
@@ -40,22 +32,14 @@ export function order({ purchase_units, intent = 'CAPTURE', paypal }: OrderProps
 
 export function captureOrder(id: string) {
     return new Promise(async (resolve) => {
-        const { base_url, access_token } = getConfig();
-
-        if (!access_token)
-            return configError();
-
         try {
-            const url = base_url + `v2/checkout/orders/${id}/capture`;
-            const response = await fetch(url, {
-                method: "post",
+            const json = await requestManager(`v2/checkout/orders/${id}/capture`, {
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: 'Bearer ' + access_token,
+                    "Content-Type": "application/json"
                 }
             });
 
-            const json = await response.json();
             return resolve(json);
         } catch (e) {
             throw new PaypalTSError("An error has occurred during the order capture. Error: " + e);
