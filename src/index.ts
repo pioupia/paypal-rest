@@ -1,6 +1,6 @@
-import auth from './Manager/AuthManager';
-import config from './Manager/ConfigManager';
-import { captureOrder, order as createOrder } from "./Manager/OrderManager";
+import auth from './Functions/Auth';
+import config from './Functions/Config';
+import { captureOrder, order as createOrder } from "./Functions/Order";
 import PurchaseUnitBuilder from "./Builders/PurchaseUnitBuilder";
 import ItemsBuilder from './Builders/ItemsBuilder';
 import UnitBuilder from './Builders/UnitBuilder';
