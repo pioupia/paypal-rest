@@ -37,3 +37,25 @@ export function order({ purchase_units, intent = 'CAPTURE', paypal }: OrderProps
         }
     });
 }
+
+export function captureOrder(id: string) {
+    return new Promise(async (resolve) => {
+        const { base_url, access_token } = getConfig();
+
+        try {
+            const url = base_url + `v2/checkout/orders/${id}/capture`;
+            const response = await fetch(url, {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: 'Bearer ' + access_token,
+                }
+            });
+
+            const json = await response.json();
+            return resolve(json);
+        } catch (e) {
+            throw new PaypalTSError("An error has occurred during the order capture. Error: " + e);
+        }
+    });
+}
