@@ -1,9 +1,9 @@
-import { OrderProps } from "../types/Order";
+import { OrderManagerResponse, OrderProps } from "../types/Order";
 import { getConfig } from "./ConfigManager";
 import PaypalTSError, { configError } from "./Errors";
 
-export function order({ purchase_units, intent = 'CAPTURE', paypal }: OrderProps) {
-    return new Promise(async (resolve, reject) => {
+export function order({ purchase_units, intent = 'CAPTURE', paypal }: OrderProps): Promise<OrderManagerResponse> {
+    return new Promise(async (resolve) => {
         const { base_url, access_token } = getConfig();
 
         if (!access_token)
@@ -30,8 +30,7 @@ export function order({ purchase_units, intent = 'CAPTURE', paypal }: OrderProps
                 body: JSON.stringify(payload),
             });
 
-            const json = await response.json();
-
+            const json: OrderManagerResponse = await response.json();
             return resolve(json);
         } catch(e) {
             throw new PaypalTSError("An error has occurred during the order creation. Error: " + e);

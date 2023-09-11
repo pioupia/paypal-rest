@@ -102,3 +102,24 @@ export interface PurchaseUnitBuilderJSON {
     description?: string;
     items?: ItemsBuilderJSON[];
 }
+
+export interface OrderManagerResponse {
+    id: string;
+    status: 'CREATED' | 'SAVED' | 'APPROVED' | 'VOIDED' | 'COMPLETED' | 'PAYER_ACTION_REQUIRED';
+    payment_source?: PaymentSource;
+    links?: Link[];
+    create_time?: string;
+    update_time?: string;
+    processing_instruction?: 'ORDER_COMPLETE_ON_PAYMENT_APPROVAL' | 'NO_INSTRUCTION';
+    purchase_units?: PurchaseUnitBuilderJSON[];
+}
+
+export interface PaymentSource {
+    paypal: {};
+}
+
+export interface Link {
+    href: string
+    rel: string
+    method: string
+}
