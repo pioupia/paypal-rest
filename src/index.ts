@@ -6,6 +6,7 @@ import ItemsBuilder from './Builders/ItemsBuilder';
 import UnitBuilder from './Builders/UnitBuilder';
 import { CurrencyCodes } from './types/Order';
 import ProductBuilder from './Builders/ProductBuilder';
+import { createProduct } from "./Functions/Products";
 
 
 export {
@@ -14,9 +15,13 @@ export {
     PurchaseUnitBuilder, UnitBuilder,
     ItemsBuilder, ProductBuilder,
     CurrencyCodes
-}
+};
 
 export const order = {
     create: createOrder,
     capture: captureOrder
-}
+};
+
+export const product = {
+    create: createProduct
+};
