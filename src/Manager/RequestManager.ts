@@ -7,6 +7,9 @@ export default function requestManager(url: string, data: RequestManagerProps, i
     return new Promise(async (resolve, reject) => {
         let { base_url, access_token, token_expire_at, auto_renew } = getConfig();
 
+        if (url.startsWith('/'))
+            url = url.slice(1);
+
         if (!isAuth) {
             if (auto_renew) {
                 if (!access_token || token_expire_at < Date.now()) {
@@ -24,6 +27,7 @@ export default function requestManager(url: string, data: RequestManagerProps, i
             data.headers.set('Authorization', 'Bearer ' + access_token);
 
         try {
+            console.log(base_url + url, data);
             const response = await fetch(base_url + url, data);
 
             let responseBody: any;
