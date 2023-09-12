@@ -5,12 +5,14 @@ import PurchaseUnitBuilder from "./Builders/PurchaseUnitBuilder";
 import ItemsBuilder from './Builders/ItemsBuilder';
 import UnitBuilder from './Builders/UnitBuilder';
 import { CurrencyCodes } from './types/Order';
+import ProductBuilder from './Builders/ProductBuilder';
 
 
 export {
     config,
     auth,
-    PurchaseUnitBuilder, UnitBuilder, ItemsBuilder,
+    PurchaseUnitBuilder, UnitBuilder,
+    ItemsBuilder, ProductBuilder,
     CurrencyCodes
 }
 
