@@ -21,7 +21,6 @@ export default class ProductBuilder {
         this.category = data?.category;
         this.image_url = data?.image_url;
         this.home_url = data?.home_url;
-        this.verifyData();
     }
 
     setName(name: string): ProductBuilder {
@@ -33,7 +32,7 @@ export default class ProductBuilder {
     }
 
     setType(type: ProductType): ProductBuilder {
-        if (ALLOWED_TYPES.includes(type))
+        if (!ALLOWED_TYPES.includes(type))
             throw new PaypalTSError("The type field of the product is invalid. Allowed type: 'PHYSICAL' | 'DIGITAL' | 'SERVICE'.");
 
         this.type = type;
@@ -113,7 +112,7 @@ export default class ProductBuilder {
             throw new PaypalTSError("The length of the name field of a product must be between 1 and 127 characters.");
         if (this.description && (this.description.length < 1 || this.description.length > 256))
             throw new PaypalTSError("The length of the description field of a product must be between 1 and 256 characters.");
-        if (ALLOWED_TYPES.includes(this.type))
+        if (!ALLOWED_TYPES.includes(this.type))
             throw new PaypalTSError("The type field of the product is invalid. Allowed type: 'PHYSICAL' | 'DIGITAL' | 'SERVICE'.");
         if (this.category && (this.category.length < 4 || this.category.length > 256 || !/^[A-Z_]+$/.test(this.category)))
             throw new PaypalTSError("The length of the category field of a product must be between 4 and 256 characters, in uppercase.");
