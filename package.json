@@ -1,10 +1,10 @@
 {
-  "name": "paypal-ts-sdk",
+  "name": "paypal-reste",
   "version": "1.0.0-ALPHA",
-  "description": "SDK for PayPal",
+  "description": "SDK for REST PayPal API",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run build && jest --watchAll --verbose --coverage",
     "build": "tsc",
     "prepublish": "rm -rf dist/ && npm run build",
     "start": "node .",
@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/pioupia/paypal-ts-sdk#readme",
   "devDependencies": {
-    "@types/node": "^20.5.9"
+    "@types/node": "^20.5.9",
+    "dotenv": "^16.3.1"
   }
 }
