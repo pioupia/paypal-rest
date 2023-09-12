@@ -27,7 +27,6 @@ export default function requestManager(url: string, data: RequestManagerProps, i
             data.headers.set('Authorization', 'Bearer ' + access_token);
 
         try {
-            console.log(base_url + url, data);
             const response = await fetch(base_url + url, data);
 
             let responseBody: any;
