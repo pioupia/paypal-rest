@@ -1,4 +1,5 @@
 import { ConfigProps, PrivateConfigProps } from "../types/Config";
+import PaypalTSError from "../Manager/Errors";
 
 const default_configuration: PrivateConfigProps = {
     mode: 'sandbox',
@@ -8,6 +9,9 @@ const default_configuration: PrivateConfigProps = {
 }
 
 export default function config({ mode, client_id, client_secret, auto_renew }: Omit<ConfigProps, 'token_expire_at'>) {
+    if (!client_secret || !client_id)
+        throw new PaypalTSError("The `client_id` and `client_secret` value are both required.");
+
     if (mode)
         default_configuration.mode = mode;
 
