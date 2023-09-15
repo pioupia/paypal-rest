@@ -15,6 +15,7 @@ export default class ItemsBuilder {
         this.quantity = data?.quantity || 1;
         this.unit_amount = data?.unit_amount || new UnitBuilder();
 
+        this.description = data?.description;
         this.sku = data?.sku;
         this.category = data?.category;
     }
@@ -47,7 +48,7 @@ export default class ItemsBuilder {
         if (sku.length > 127)
             throw new PaypalTSError("The length of the sku must be between 1 and 127 characters.");
 
-        this.description = sku;
+        this.sku = sku;
         return this;
     }
 
