@@ -40,7 +40,7 @@ export default class ProductBuilder {
     }
 
     setDescription(description: string): ProductBuilder {
-        if (description.length < 1 || description.length > 256)
+        if (description.length > 256)
             throw new PaypalTSError("The length of the description field of a product must be between 1 and 256 characters.");
 
         this.description = description;
