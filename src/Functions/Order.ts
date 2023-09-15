@@ -3,7 +3,10 @@ import PaypalTSError from "../Manager/Errors";
 import requestManager from "../Manager/RequestManager";
 
 export function order({ purchase_units, intent = 'CAPTURE', paypal }: OrderProps): Promise<OrderManagerResponse> {
-    return new Promise(async (resolve) => {
+    return new Promise(async (resolve, reject) => {
+        if (!purchase_units.length || purchase_units.length > 10)
+            return reject(new PaypalTSError("You should have between 1 and 10 purchase units."));
+
         const payload = {
             intent: intent || 'CAPTURE',
             purchase_units: purchase_units.map(p => p.toJSON()),
