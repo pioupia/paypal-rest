@@ -15,6 +15,6 @@ export default class PaypalTSError extends Error {
     }
 
     override get name() {
-        return "PaypalSDK";
+        return "PaypalRest";
     }
 }

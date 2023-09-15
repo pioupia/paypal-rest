@@ -1,5 +1,5 @@
 {
-  "name": "paypal-reste",
+  "name": "paypal-rest",
   "version": "1.0.0-ALPHA",
   "description": "SDK for REST PayPal API",
   "main": "dist/index.js",
