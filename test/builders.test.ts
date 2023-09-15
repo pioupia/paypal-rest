@@ -62,18 +62,6 @@ describe("ItemBuilder errors tests", () => {
 });
 
 describe('ItemBuilder constructor', () => {
-/*    const builder = new ItemsBuilder({
-        name: '',
-        sku: '',
-        unit_amount: new UnitBuilder({
-            currency_code: 'EUR',
-            value: 10
-        }),
-        quantity: 10.50,
-        category: 'DIGITAL_GOODS',
-        description: ''
-    });*/
-
     it('bad names', () => {
         let builder = new ItemsBuilder({
             name: ''
