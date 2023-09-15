@@ -1,9 +1,6 @@
 import { config } from "../src";
-import * as dotenv from 'dotenv';
 import { getConfig } from "../src/Functions/Config";
 import { deepEqual } from "node:assert";
-
-dotenv.config();
 
 describe('Test config function', () => {
     it("Default test", () => {
