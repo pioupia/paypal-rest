@@ -3,13 +3,6 @@ import { deepEqual } from "node:assert";
 import { CategoryType } from "../src/types/Order";
 
 describe("ItemBuilder errors tests", () => {
-    it("empty Item", () => {
-       expect(() => {
-           new ItemsBuilder()
-               .toJSON()
-       }).toThrow("The length of the name must be between 1 and 127 characters.")
-    });
-
     it("name", () => {
         expect(() => {
             new ItemsBuilder()
@@ -62,6 +55,13 @@ describe("ItemBuilder errors tests", () => {
 });
 
 describe('ItemBuilder constructor', () => {
+    it("empty Item", () => {
+        expect(() => {
+            new ItemsBuilder()
+                .toJSON()
+        }).toThrow("The length of the name must be between 1 and 127 characters.")
+    });
+
     it('bad names', () => {
         let builder = new ItemsBuilder({
             name: ''
