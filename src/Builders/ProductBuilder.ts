@@ -48,7 +48,7 @@ export default class ProductBuilder {
     }
 
     setID(id: string): ProductBuilder {
-        if (id.length < 6 || id.length > 50)
+        if (id && (id.length < 6 || id.length > 50))
             throw new PaypalTSError("The length of the ID field of a product must be between 6 and 50 characters.");
 
         this.id = id;
@@ -64,7 +64,7 @@ export default class ProductBuilder {
     }
 
     setImageUrl(image_url: string): ProductBuilder {
-        if (image_url && (image_url.length < 1 || image_url.length > 2000))
+        if (image_url.length > 2000)
             throw new PaypalTSError("The length of the image_url field of a product must be between 1 and 2000 characters.");
 
         this.image_url = image_url;
@@ -72,7 +72,7 @@ export default class ProductBuilder {
     }
 
     setHomeUrl(home_url: string): ProductBuilder {
-        if (home_url && (home_url.length < 1 || home_url.length > 256))
+        if (home_url.length > 2000)
             throw new PaypalTSError("The length of the home_url field of a product must be between 1 and 2000 characters.");
 
 
@@ -108,7 +108,7 @@ export default class ProductBuilder {
 
         if (this.id && (this.id.length < 6 || this.id.length > 50))
             throw new PaypalTSError("The length of the ID field of a product must be between 6 and 50 characters.");
-        if (this.name && (this.name.length < 1 || this.name.length > 127))
+        if (this.name.length > 127)
             throw new PaypalTSError("The length of the name field of a product must be between 1 and 127 characters.");
         if (this.description && (this.description.length < 1 || this.description.length > 256))
             throw new PaypalTSError("The length of the description field of a product must be between 1 and 256 characters.");
@@ -118,7 +118,7 @@ export default class ProductBuilder {
             throw new PaypalTSError("The length of the category field of a product must be between 4 and 256 characters, in uppercase.");
         if (this.image_url && (this.image_url.length < 1 || this.image_url.length > 2000))
             throw new PaypalTSError("The length of the image_url field of a product must be between 1 and 2000 characters.");
-        if (this.home_url && (this.home_url.length < 1 || this.home_url.length > 256))
+        if (this.home_url && (this.home_url.length < 1 || this.home_url.length > 2000))
             throw new PaypalTSError("The length of the home_url field of a product must be between 1 and 2000 characters.");
     }
 }
