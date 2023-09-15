@@ -30,7 +30,7 @@ export default class UnitBuilder {
         return this;
     }
 
-    setCurrency(currency: CurrencyCodes): UnitBuilder {
+    setCurrency(currency: CurrencyCodes | acceptedCurrencyCodes): UnitBuilder {
         if (floatingCurrency.includes(currency) &&
             this.value % 1 !== 0) {
             if (!this.overwritePrice)

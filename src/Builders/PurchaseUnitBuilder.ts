@@ -1,4 +1,10 @@
-import { Amount, CurrencyCodes, PurchaseUnitBuilderJSON, PurchaseUnitBuilderProps } from "../types/Order";
+import {
+    acceptedCurrencyCodes,
+    Amount,
+    CurrencyCodes,
+    PurchaseUnitBuilderJSON,
+    PurchaseUnitBuilderProps
+} from "../types/Order";
 import PaypalTSError from "../Manager/Errors";
 import UnitBuilder from "./UnitBuilder";
 import ItemsBuilder from "./ItemsBuilder";
@@ -28,7 +34,7 @@ export default class PurchaseUnitBuilder {
         return this;
     }
 
-    setCurrency(currency: CurrencyCodes): PurchaseUnitBuilder {
+    setCurrency(currency: CurrencyCodes | acceptedCurrencyCodes): PurchaseUnitBuilder {
         this.amount.setCurrency(currency);
         return this;
     }
