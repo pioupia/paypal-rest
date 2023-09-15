@@ -85,15 +85,6 @@ describe('ItemBuilder constructor', () => {
         expect(() => builder.toJSON()).toThrow("The length of the description must be between 1 and 127 characters.");
     });
 
-    it('bad descriptions', () => {
-        let builder = new ItemsBuilder({
-            name: 'test',
-            description: "This is long text, as long as possible to ensure that the builder sends an error if the description is longer than 127 characters"
-        });
-
-        expect(() => builder.toJSON()).toThrow("The length of the description must be between 1 and 127 characters.");
-    });
-
     it('bad sku', () => {
         let builder = new ItemsBuilder({
             name: 'test',
@@ -101,6 +92,31 @@ describe('ItemBuilder constructor', () => {
         });
 
         expect(() => builder.toJSON()).toThrow("The length of the sku must be between 1 and 127 characters.");
+    });
+
+    it('bad quantity', () => {
+        let builder = new ItemsBuilder({
+            name: 'test',
+            quantity: 1.5
+        });
+
+        expect(() => builder.toJSON()).toThrow("The quantity cannot exceed 10 digits, cannot be negative and must be a whole number.");
+
+
+        builder = new ItemsBuilder({
+            name: 'test',
+            quantity: -1
+        });
+
+        expect(() => builder.toJSON()).toThrow("The quantity cannot exceed 10 digits, cannot be negative and must be a whole number.");
+
+
+        builder = new ItemsBuilder({
+            name: 'test',
+            quantity: 10000000000
+        });
+
+        expect(() => builder.toJSON()).toThrow("The quantity cannot exceed 10 digits, cannot be negative and must be a whole number.");
     });
 
     it('bad category', () => {
