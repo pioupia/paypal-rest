@@ -1,3 +1,19 @@
+import { HTTP_METHOD } from "./index";
+
+interface LinksData {
+    href: string;
+    rel: string;
+    method?: HTTP_METHOD;
+}
+
+interface ProductData {
+    id?: string;
+    name?: string;
+    create_time?: string;
+    description?: string;
+    links?: LinksData[];
+}
+
 export interface ProductBuilderProps {
     name: string;
     type: ProductType;
@@ -6,6 +22,38 @@ export interface ProductBuilderProps {
     category?: ProductCategory;
     image_url?: string;
     home_url?: string;
+}
+
+export interface GetProductListProps {
+    /**
+     * The number of items to return in the response.
+     * @default 10
+     * @type {number}
+     * @remarks
+     * The page_size value should be between 1 and 20
+     */
+    page_size: number;
+    /**
+     * A non-zero integer which is the start index of the entire list of items that are returned in the response. So, the combination of `page=1` and `page_size=20` returns the first 20 items. The combination of `page=2` and `page_size=20` returns the next 20 items.
+     * @default 1
+     * @type {number}
+     * @remarks
+     * The page value should be between 1 and 100000
+     */
+    page: number;
+    /**
+     * Indicates whether to show the total items and total pages in the response.
+     * @default false
+     * @type {boolean}
+     */
+    total_required: boolean;
+}
+
+export interface GetProductListJSON {
+    products?: ProductData[];
+    total_items?: number;
+    total_pages?: number;
+    links?: LinksData[];
 }
 
 export type ProductType = 'PHYSICAL' | 'DIGITAL' | 'SERVICE';
