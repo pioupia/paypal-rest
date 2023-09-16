@@ -21,7 +21,7 @@ export default class PurchaseUnitBuilder {
     }
 
     setDescription(description: string): PurchaseUnitBuilder {
-        if (!description || description.length > 127)
+        if (description && description.length > 127)
             throw new PaypalTSError("The length of a purchase unit description must be between 1 and 127 characters.");
 
         this.description = description;
@@ -40,7 +40,7 @@ export default class PurchaseUnitBuilder {
     }
 
     setReferenceID(reference_id: string): PurchaseUnitBuilder {
-        if (!reference_id || reference_id.length > 256)
+        if (reference_id.length > 256)
             throw new PaypalTSError("The length of the reference ID must be between 1 and 256 characters.");
 
         this.reference_id = reference_id;
