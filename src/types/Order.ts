@@ -1,5 +1,6 @@
 import UnitBuilder from "../Builders/UnitBuilder";
 import PurchaseUnitBuilder from "../Builders/PurchaseUnitBuilder";
+import { LinksData } from "./index";
 
 export type acceptedCurrencyCodes = 'AUD' | 'BRL' | 'CAD' | 'CNY' | 'CZK' | 'DKK' | 'EUR' | 'HKD' | 'HUF' | 'ILS' | 'JPY' | 'MYR' | 'MXN' | 'TWD' | 'NZD' | 'NOK' | 'PHP' | 'PLN' | 'GBP' | 'RUB' | 'SGD' | 'SEK' | 'CHF' | 'THB' | 'USD';
 export type CategoryType = 'DIGITAL_GOODS' | 'PHYSICAL_GOODS' | 'DONATION';
@@ -107,7 +108,7 @@ export interface OrderManagerResponse {
     id: string;
     status: 'CREATED' | 'SAVED' | 'APPROVED' | 'VOIDED' | 'COMPLETED' | 'PAYER_ACTION_REQUIRED';
     payment_source?: PaymentSource;
-    links?: Link[];
+    links?: LinksData[];
     create_time?: string;
     update_time?: string;
     processing_instruction?: 'ORDER_COMPLETE_ON_PAYMENT_APPROVAL' | 'NO_INSTRUCTION';
@@ -116,10 +117,4 @@ export interface OrderManagerResponse {
 
 export interface PaymentSource {
     paypal: {};
-}
-
-export interface Link {
-    href: string
-    rel: string
-    method: string
 }

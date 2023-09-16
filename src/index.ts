@@ -6,7 +6,7 @@ import ItemsBuilder from './Builders/ItemsBuilder';
 import UnitBuilder from './Builders/UnitBuilder';
 import { CurrencyCodes } from './types/Order';
 import ProductBuilder from './Builders/ProductBuilder';
-import { createProduct, getProducts } from "./Functions/Products";
+import { createProduct, getProductDetails, getProducts } from "./Functions/Products";
 
 
 export {
@@ -25,4 +25,5 @@ export const order = {
 export const product = {
     create: createProduct,
     list: getProducts,
+    get: getProductDetails
 };
