@@ -1,10 +1,4 @@
-import { HTTP_METHOD } from "./index";
-
-interface LinksData {
-    href: string;
-    rel: string;
-    method?: HTTP_METHOD;
-}
+import { HTTP_METHOD, LinksData } from "./index";
 
 interface ProductData {
     id?: string;
@@ -54,6 +48,14 @@ export interface GetProductListJSON {
     total_items?: number;
     total_pages?: number;
     links?: LinksData[];
+}
+
+export interface GetProductDetailsJSON extends ProductData {
+    update_time?: string;
+    image_url?: string;
+    home_url?: string;
+    category?: ProductCategory;
+    type?: ProductType;
 }
 
 export type ProductType = 'PHYSICAL' | 'DIGITAL' | 'SERVICE';

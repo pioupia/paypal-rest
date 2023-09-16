@@ -1,7 +1,7 @@
 import PaypalTSError from "../Manager/Errors";
 import requestManager from "../Manager/RequestManager";
 import ProductBuilder from "../Builders/ProductBuilder";
-import { GetProductListJSON, GetProductListProps } from "../types/Product";
+import { GetProductDetailsJSON, GetProductListJSON, GetProductListProps } from "../types/Product";
 
 export function createProduct(product: ProductBuilder) {
     return new Promise(async (resolve) => {
@@ -36,6 +36,26 @@ export function getProducts({ total_required, page, page_size }: Partial<GetProd
         try {
             return resolve(
                 await requestManager(`v1/catalogs/products?page_size=${page_size}&page=${page}&total_required=${total_required}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+            )
+        } catch (e) {
+            throw new PaypalTSError("An error has occurred during the product listing with PayPal. Error:" + e);
+        }
+    });
+}
+
+export function getProductDetails(productId: string): Promise<GetProductDetailsJSON> {
+    return new Promise(async (resolve) => {
+        if (typeof productId !== "string" || !productId)
+            throw new PaypalTSError("The string productId parameter is required to get the details of a product.");
+
+        try {
+            return resolve(
+                await requestManager(`v1/catalogs/products/${productId}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
