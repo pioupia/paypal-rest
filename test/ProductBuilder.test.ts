@@ -1,5 +1,6 @@
 import { ProductBuilder } from "../src";
 import { ProductCategory, ProductType } from "../src/types/Product";
+import { deepEqual } from "node:assert";
 
 describe('ProductBuilder errors', () => {
     it('name', () => {
@@ -133,6 +134,18 @@ describe('ProductBuilder values', () => {
         expect(home_url).toBe("https://my-home.com/url");
         expect(pb.home_url).toBe("https://my-home.com/url");
     });
+
+    it('does not have extra values', () => {
+        const pb = new ProductBuilder({
+            name: 'test',
+            type: "DIGITAL"
+        }).toJSON();
+
+        deepEqual(pb, {
+            name: 'test',
+            type: "DIGITAL"
+        });
+    })
 });
 
 describe('ProductBuilder toJSON error', () => {
