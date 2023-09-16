@@ -5,20 +5,21 @@ import PaypalTSError from "../Manager/Errors";
 const floatingCurrency = ['HUF', 'JPY', 'TWD'];
 
 export default class UnitBuilder {
-    private currency_code: CurrencyCodes | acceptedCurrencyCodes;
-    private value: number;
+    private currency_code?: CurrencyCodes | acceptedCurrencyCodes;
+    private value?: number;
     private readonly overwritePrice: boolean;
 
     constructor(data?: Partial<PurchaseUnitBuilderProps>) {
-        this.currency_code = data?.currency_code || 'EUR';
-        this.value = data?.value || 1;
+        this.currency_code = data?.currency_code;
+        this.value = data?.value;
         this.overwritePrice = data?.overwritePrice ?? false;
-
-        this.verifyData();
     }
 
     setPrice(price: number): UnitBuilder {
-        if (floatingCurrency.includes(this.currency_code) &&
+        if (!price || isNaN(price) || price < 0)
+            throw new PaypalTSError("The value field is required and should be a positive number.");
+
+        if (this.currency_code && floatingCurrency.includes(this.currency_code) &&
             price % 1 !== 0) {
             if (!this.overwritePrice)
                 throw new PaypalTSError("The price could not be floating with the currency " + this.currency_code);
@@ -31,7 +32,7 @@ export default class UnitBuilder {
     }
 
     setCurrency(currency: CurrencyCodes | acceptedCurrencyCodes): UnitBuilder {
-        if (floatingCurrency.includes(currency) &&
+        if (this.value && floatingCurrency.includes(currency) &&
             this.value % 1 !== 0) {
             if (!this.overwritePrice)
                 throw new PaypalTSError("This currency does not support floating prices.");
@@ -48,13 +49,19 @@ export default class UnitBuilder {
 
         return Object.freeze(
             {
-                currency_code: this.currency_code,
-                value: this.value.toString()
+                currency_code: this.currency_code as CurrencyCodes | acceptedCurrencyCodes,
+                value: (this.value as number).toString()
             }
         );
     }
 
     private verifyData() {
+        if (!this.currency_code)
+            throw new PaypalTSError("The currency code field is required.");
+
+        if (typeof this.value !== 'number' || isNaN(this.value) || this.value < 0)
+            throw new PaypalTSError("The value field is required and should be a positive number.");
+
         if (floatingCurrency.includes(this.currency_code) &&
             this.value % 1 !== 0) {
             if (!this.overwritePrice)
@@ -62,8 +69,5 @@ export default class UnitBuilder {
 
             this.value = Math.round(this.value);
         }
-
-        if(this.value.toString().length > 32)
-            throw new PaypalTSError("The price could not do more than 32 characters.");
     }
 }
