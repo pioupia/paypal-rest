@@ -97,4 +97,18 @@ describe('PurchaseUnitBuilder values', () => {
         expect(amount.breakdown?.item_total?.value).toBe((10 + 23 + 10 * 3.5).toString());
         expect(amount.breakdown?.item_total?.currency_code).toBe('EUR');
     });
+
+    it('only required field are fill', () => {
+        const pub = new PurchaseUnitBuilder({
+            currency_code: 'EUR',
+            value: 12
+        }).toJSON();
+
+        deepEqual(pub, {
+            amount: {
+                currency_code: 'EUR',
+                value: 12
+            }
+        })
+    })
 });
