@@ -1,4 +1,4 @@
-import { ItemsBuilder } from "../src";
+import { CurrencyCodes, ItemsBuilder, UnitBuilder } from "../src";
 import { deepEqual } from "node:assert";
 import { CategoryType } from "../src/types/Order";
 
@@ -159,9 +159,27 @@ describe('ItemBuilder values tests', () => {
     });
 
     it("amount", () => {
+        const { unit_amount } = new ItemsBuilder()
+            .setName("required name")
+            .setDescription("optional description")
+            .setSKU("optional sku")
+            .setQuantity(10)
+            .setCategory("DIGITAL_GOODS")
+            .setUnitAmount(
+                new UnitBuilder()
+                    .setPrice(42.5)
+                    .setCurrency(CurrencyCodes.AustralianDollar)
+            )
+            .toJSON();
+
         deepEqual(builder.unit_amount, {
             currency_code: 'EUR',
             value: "5"
+        });
+
+        deepEqual(unit_amount, {
+            currency_code: 'AUD',
+            value: "42.5"
         });
     });
 });

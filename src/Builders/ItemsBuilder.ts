@@ -62,11 +62,7 @@ export default class ItemsBuilder {
 
     setUnitAmount(amount: UnitBuilder | Amount): ItemsBuilder {
         if (amount instanceof UnitBuilder) {
-            if (typeof amount.toJSON().value === "string") {
-                this.unit_amount = amount;
-            } else {
-                throw new PaypalTSError("The unit amount should be a unit builder.");
-            }
+            this.unit_amount = amount;
 
             return this;
         }
