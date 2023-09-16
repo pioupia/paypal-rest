@@ -1,5 +1,7 @@
+import { HTTP_METHOD } from "./index";
+
 export interface RequestManagerProps {
-    method: 'POST' | 'GET' | 'PATCH';
+    method: HTTP_METHOD;
     headers?: HeadersInit;
     body?: string;
 }
