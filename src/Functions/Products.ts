@@ -2,15 +2,14 @@ import PaypalTSError from "../Manager/Errors";
 import requestManager from "../Manager/RequestManager";
 import ProductBuilder from "../Builders/ProductBuilder";
 import {
-    GetProductDetailsJSON,
     GetProductListJSON,
-    GetProductListProps,
+    GetProductListProps, ProductData,
     ProductDifference, ProductDifferenceOperation,
     UpdateProductType
 } from "../types/Product";
 import { ProductUpdateBuilder } from "../Builders/ProductUpdateBuilder";
 
-export function createProduct(product: ProductBuilder) {
+export function createProduct(product: ProductBuilder): Promise<ProductData> {
     return new Promise(async (resolve) => {
        try {
            const json = await requestManager('v1/catalogs/products', {

@@ -1,6 +1,6 @@
 import { LinksData } from "./index";
 
-interface ProductData {
+export interface ProductData {
     id?: string;
     name?: string;
     create_time?: string;
