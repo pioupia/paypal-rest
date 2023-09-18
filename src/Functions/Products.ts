@@ -1,7 +1,13 @@
 import PaypalTSError from "../Manager/Errors";
 import requestManager from "../Manager/RequestManager";
 import ProductBuilder from "../Builders/ProductBuilder";
-import { GetProductDetailsJSON, GetProductListJSON, GetProductListProps } from "../types/Product";
+import {
+    GetProductDetailsJSON,
+    GetProductListJSON,
+    GetProductListProps,
+    ProductDifference, ProductDifferenceOperation,
+    UpdateProductType
+} from "../types/Product";
 
 export function createProduct(product: ProductBuilder) {
     return new Promise(async (resolve) => {
@@ -66,4 +72,64 @@ export function getProductDetails(productId: string): Promise<GetProductDetailsJ
             throw new PaypalTSError("An error has occurred during the product listing with PayPal. Error:" + e);
         }
     });
+}
+
+export function updateProductDetails(productId: string, lastProduct: UpdateProductType, newProduct: UpdateProductType): Promise<GetProductDetailsJSON> {
+    return new Promise(async (resolve) => {
+        if (typeof productId !== "string" || !productId)
+            throw new PaypalTSError("The string productId parameter is required to update the details of a product.");
+
+        // Verify data validity
+        new ProductBuilder({
+            name: 'test',
+            type: 'DIGITAL',
+            description: newProduct.description,
+            category: newProduct.category,
+            image_url: newProduct.image_url,
+            home_url: newProduct.home_url
+        }).toJSON();
+
+        const diff = ProductDiff(lastProduct, newProduct);
+
+        try {
+            return resolve(
+                await requestManager(`v1/catalogs/products/${productId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(diff)
+                })
+            );
+        } catch (e) {
+            throw new PaypalTSError("An error has occurred during the product listing with PayPal. Error:" + e);
+        }
+    });
+}
+
+function ProductDiff(lastProduct: UpdateProductType, newProduct: UpdateProductType) {
+    const EDITABLE_KEYS: (keyof UpdateProductType)[] = ['description', 'category', 'image_url', 'home_url'];
+    const diffs: ProductDifference[] = [];
+
+    for (const key of EDITABLE_KEYS) {
+        let op: ProductDifferenceOperation;
+        let value = newProduct[key];
+        if (!lastProduct[key] && newProduct[key]) {
+            op = 'add';
+        } else if (lastProduct[key] && !newProduct[key]) {
+            op = 'remove';
+            value = undefined;
+        } else if (lastProduct[key] !== newProduct[key]) {
+            op = 'replace';
+        } else
+            continue;
+
+        diffs.push({
+            op,
+            path: key,
+            ...(value ? {value} : {})
+        });
+    }
+
+    return diffs;
 }
