@@ -36,7 +36,7 @@ export default function requestManager(url: string, data: RequestManagerProps, i
                 responseBody = await response.text();
 
             if (response.status < 200 || response.status >= 400)
-                return reject(response);
+                return reject(responseBody ? responseBody : response);
 
             return resolve(responseBody);
         } catch (e) {
