@@ -21,16 +21,16 @@ export function createProduct(product: ProductBuilder) {
            });
            return resolve(json);
        } catch (e) {
-           throw new PaypalTSError("An error has occurred during the product creation with PayPal. Error:" + e);
+           throw e;
        }
     });
 }
 
-export function getProducts({ total_required, page, page_size }: Partial<GetProductListProps>): Promise<GetProductListJSON> {
+export function getProducts(props?: Partial<GetProductListProps>): Promise<GetProductListJSON> {
     return new Promise(async (resolve) => {
-        page_size ||= 10;
-        page ||= 1;
-        total_required ||= false;
+        const page_size = props?.page_size ?? 10;
+        const page = props?.page ?? 1;
+        const total_required = props?.total_required ?? false;
 
         if (typeof total_required !== "boolean")
             throw new PaypalTSError("The total_required value should be a boolean.");
@@ -49,7 +49,7 @@ export function getProducts({ total_required, page, page_size }: Partial<GetProd
                 })
             )
         } catch (e) {
-            throw new PaypalTSError("An error has occurred during the product listing with PayPal. Error:" + e);
+            throw e;
         }
     });
 }
@@ -69,12 +69,12 @@ export function getProductDetails(productId: string): Promise<GetProductDetailsJ
                 })
             )
         } catch (e) {
-            throw new PaypalTSError("An error has occurred during the product listing with PayPal. Error:" + e);
+            throw e;
         }
     });
 }
 
-export function updateProductDetails(productId: string, lastProduct: UpdateProductType, newProduct: UpdateProductType): Promise<GetProductDetailsJSON> {
+export function updateProductDetails(productId: string, lastProduct: UpdateProductType, newProduct: UpdateProductType) {
     return new Promise(async (resolve) => {
         if (typeof productId !== "string" || !productId)
             throw new PaypalTSError("The string productId parameter is required to update the details of a product.");
@@ -92,17 +92,19 @@ export function updateProductDetails(productId: string, lastProduct: UpdateProdu
         const diff = ProductDiff(lastProduct, newProduct);
 
         try {
-            return resolve(
-                await requestManager(`v1/catalogs/products/${productId}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(diff)
-                })
-            );
+            const res = await requestManager(`v1/catalogs/products/${productId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(diff)
+            });
+            
+            if (res === null)
+                return resolve(true);
+            return resolve(res);
         } catch (e) {
-            throw new PaypalTSError("An error has occurred during the product listing with PayPal. Error:" + e);
+            throw e;
         }
     });
 }
@@ -126,7 +128,7 @@ function ProductDiff(lastProduct: UpdateProductType, newProduct: UpdateProductTy
 
         diffs.push({
             op,
-            path: key,
+            path: '/' + key,
             ...(value ? {value} : {})
         });
     }
