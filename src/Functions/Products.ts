@@ -8,6 +8,7 @@ import {
     ProductDifference, ProductDifferenceOperation,
     UpdateProductType
 } from "../types/Product";
+import { ProductUpdateBuilder } from "../Builders/ProductUpdateBuilder";
 
 export function createProduct(product: ProductBuilder) {
     return new Promise(async (resolve) => {
@@ -54,20 +55,22 @@ export function getProducts(props?: Partial<GetProductListProps>): Promise<GetPr
     });
 }
 
-export function getProductDetails(productId: string): Promise<GetProductDetailsJSON> {
+export function getProductDetails(productId: string): Promise<ProductUpdateBuilder> {
     return new Promise(async (resolve) => {
         if (typeof productId !== "string" || !productId)
             throw new PaypalTSError("The string productId parameter is required to get the details of a product.");
 
         try {
+            const res = await requestManager(`v1/catalogs/products/${productId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
             return resolve(
-                await requestManager(`v1/catalogs/products/${productId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-            )
+                new ProductUpdateBuilder(res)
+            );
         } catch (e) {
             throw e;
         }
