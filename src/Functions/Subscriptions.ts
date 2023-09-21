@@ -1,12 +1,12 @@
 import {
+    SubscriptionsBuilderProps,
     SubscriptionsPlanBuilderProps,
     SubscriptionsPlanJSON, SubscriptionsPlansListJSON,
     SubscriptionsPlansListProps
 } from "../types/Subscriptions";
 import requestManager from "../Manager/RequestManager";
-import ProductBuilder from "../Builders/ProductBuilder";
-import { ProductUpdateBuilder } from "../Builders/ProductUpdateBuilder";
 import PaypalTSError from "../Manager/Errors";
+import SubscriptionBuilder from "../Builders/SubscriptionBuilder";
 
 export function createSubscriptionPlan(subscription: SubscriptionsPlanBuilderProps<'JSON'>): Promise<SubscriptionsPlanJSON> {
     return new Promise(async (resolve, reject) => {
@@ -59,6 +59,26 @@ export function getSubscriptionPlan(id: string): Promise<SubscriptionsPlanJSON> 
                 headers: {
                     'Content-Type': 'application/json'
                 }
+            });
+            return resolve(res);
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+export function createSubscription(subscription: SubscriptionsBuilderProps<'JSON'> | SubscriptionBuilder): Promise<any> {
+    return new Promise(async (resolve, reject) => {
+        if (subscription instanceof SubscriptionBuilder)
+            subscription = subscription.toJSON();
+
+        try {
+            const res = await requestManager('v1/billing/subscriptions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(subscription)
             });
             return resolve(res);
         } catch (error) {

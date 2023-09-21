@@ -75,7 +75,7 @@ export default class SubscriptionBuilder {
 
         return Object.freeze({
             plan_id: this.plan_id!,
-            quantity: this.quantity,
+            quantity: this.quantity?.toString(),
             custom_id: this.custom_id,
             start_time: this.start_time,
             shipping_amount: this.shipping_amount?.toJSON(),
