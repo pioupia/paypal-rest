@@ -10,6 +10,7 @@ import { createProduct, getProductDetails, getProducts, updateProductDetails } f
 import SubscriptionBuilder from './Builders/SubscriptionBuilder';
 import BillingCycleBuilder from './Builders/BillingCycleBuilder';
 import PaymentPreferencesBuilder from './Builders/PaymentPreferencesBuilder';
+import { createSubscription } from "./Functions/Subscriptions";
 
 
 export {
@@ -32,3 +33,7 @@ export const product = {
     get: getProductDetails,
     update: updateProductDetails
 };
+
+export const subscription = {
+    create: createSubscription,
+}
