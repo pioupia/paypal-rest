@@ -12,11 +12,11 @@ import PaypalTSError from "../Manager/Errors";
 import { BillingCycleProps } from "../types/BillingCycle";
 import { PaymentPreferencesProps } from "../types/PaymentPreferences";
 import { ProductUpdateBuilder } from "./ProductUpdateBuilder";
-import { createSubscription } from "../Functions/Subscriptions";
+import { createSubscriptionPlan } from "../Functions/Subscriptions";
 
 const ALLOWS_STATUS = ["ACTIVE", "INACTIVE", "CREATED"];
 
-export default class SubscriptionBuilder {
+export default class SubscriptionPlanBuilder {
     private product_id?: string;
     private name?: string;
     private billing_cycles: BillingCycleBuilder[];
@@ -41,7 +41,7 @@ export default class SubscriptionBuilder {
         this.taxes = data?.taxes;
     }
 
-    public setProductId(product_id: string | ProductBuilder | ProductUpdateBuilder): SubscriptionBuilder {
+    public setProductId(product_id: string | ProductBuilder | ProductUpdateBuilder): SubscriptionPlanBuilder {
         const id = (product_id instanceof ProductBuilder) || (product_id instanceof ProductUpdateBuilder) ? product_id.toJSON().id : product_id;
         if (!id?.length || id.length < 6 || id.length > 50)
             throw new PaypalTSError("Invalid product_id the length must be between 6 and 50 characters.");
@@ -50,7 +50,7 @@ export default class SubscriptionBuilder {
         return this;
     }
 
-    public setName(name: string): SubscriptionBuilder {
+    public setName(name: string): SubscriptionPlanBuilder {
         if (!name.length || name.length > 127)
             throw new PaypalTSError("Invalid name the length must be between 1 and 127 characters.");
 
@@ -58,7 +58,7 @@ export default class SubscriptionBuilder {
         return this;
     }
 
-    public setStatus(status: SubscriptionsStatus): SubscriptionBuilder {
+    public setStatus(status: SubscriptionsStatus): SubscriptionPlanBuilder {
         if (!ALLOWS_STATUS.includes(status))
             throw new PaypalTSError(`Invalid status the status must be one of the following: ${ALLOWS_STATUS.join(", ")}`);
 
@@ -66,7 +66,7 @@ export default class SubscriptionBuilder {
         return this;
     }
 
-    public setDescription(description: string): SubscriptionBuilder {
+    public setDescription(description: string): SubscriptionPlanBuilder {
         if (description.length > 127)
             throw new PaypalTSError("Invalid description the length must be less than 127 characters.");
 
@@ -74,17 +74,17 @@ export default class SubscriptionBuilder {
         return this;
     }
 
-    public setQuantitySupported(quantity_supported: boolean): SubscriptionBuilder {
+    public setQuantitySupported(quantity_supported: boolean): SubscriptionPlanBuilder {
         this.quantity_supported = quantity_supported;
         return this;
     }
 
-    public setTaxes(taxes: Taxes): SubscriptionBuilder {
+    public setTaxes(taxes: Taxes): SubscriptionPlanBuilder {
         this.taxes = taxes;
         return this;
     }
 
-    public addBillingCycle(...billing_cycle: (BillingCycleBuilder | BillingCycleProps)[]): SubscriptionBuilder {
+    public addBillingCycle(...billing_cycle: (BillingCycleBuilder | BillingCycleProps)[]): SubscriptionPlanBuilder {
         if (billing_cycle.length + this.billing_cycles.length > 12)
             throw new PaypalTSError("Invalid billing_cycle the length must be less than 12.");
 
@@ -94,7 +94,7 @@ export default class SubscriptionBuilder {
         return this;
     }
 
-    public setBillingCycles(...billing_cycles: (BillingCycleBuilder | BillingCycleProps)[]): SubscriptionBuilder {
+    public setBillingCycles(...billing_cycles: (BillingCycleBuilder | BillingCycleProps)[]): SubscriptionPlanBuilder {
         if (billing_cycles.length > 12)
             throw new PaypalTSError("Invalid billing_cycle the length must be less than 12.");
 
@@ -104,14 +104,14 @@ export default class SubscriptionBuilder {
         return this;
     }
 
-    public setPaymentPreferences(payment_preferences: PaymentPreferencesBuilder | PaymentPreferencesProps): SubscriptionBuilder {
+    public setPaymentPreferences(payment_preferences: PaymentPreferencesBuilder | PaymentPreferencesProps): SubscriptionPlanBuilder {
         this.payment_preferences = (payment_preferences instanceof PaymentPreferencesBuilder) ? payment_preferences : new PaymentPreferencesBuilder(payment_preferences);
         return this;
     }
 
     public create(): Promise<SubscriptionsJSON> {
         return new Promise(async (resolve, reject) => {
-            createSubscription(this.toJSON()).then(resolve).catch(reject);
+            createSubscriptionPlan(this.toJSON()).then(resolve).catch(reject);
         });
     }
 

@@ -1,7 +1,7 @@
 import { SubscriptionsBuilderProps, SubscriptionsJSON } from "../types/Subscriptions";
 import requestManager from "../Manager/RequestManager";
 
-export function createSubscription(subscription: SubscriptionsBuilderProps<'JSON'>): Promise<SubscriptionsJSON> {
+export function createSubscriptionPlan(subscription: SubscriptionsBuilderProps<'JSON'>): Promise<SubscriptionsJSON> {
     return new Promise(async (resolve, reject) => {
         try {
             const res = await requestManager('v1/billing/plans', {
