@@ -7,10 +7,10 @@ import UnitBuilder from './Builders/UnitBuilder';
 import { CurrencyCodes } from './types/Order';
 import ProductBuilder from './Builders/ProductBuilder';
 import { createProduct, getProductDetails, getProducts, updateProductDetails } from "./Functions/Products";
-import SubscriptionPlanBuilder from './Builders/SubscriptionPlanBuilder';
 import BillingCycleBuilder from './Builders/BillingCycleBuilder';
 import PaymentPreferencesBuilder from './Builders/PaymentPreferencesBuilder';
-import { createSubscriptionPlan } from "./Functions/Subscriptions";
+import { createSubscriptionPlan, listSubscriptionPlan } from "./Functions/Subscriptions";
+import SubscriptionPlanBuilder from './Builders/SubscriptionPlanBuilder';
 
 
 export {
@@ -36,4 +36,5 @@ export const product = {
 
 export const plan = {
     create: createSubscriptionPlan,
+    list: listSubscriptionPlan
 }
