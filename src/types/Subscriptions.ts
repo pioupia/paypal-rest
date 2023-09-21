@@ -34,9 +34,13 @@ export interface SubscriptionsPlanJSON {
     status: SubscriptionsStatus;
     usage_type: "LICENSED" | "UNLIMITED";
     create_time: string;
+    billing_cycles?: BillingCycleProps<'JSON'>[];
     links?: LinksData[];
     update_time?: string;
     description?: string;
+    quantity_supported?: boolean;
+    payment_preferences?: PaymentPreferencesProps<'JSON'>;
+    taxes?: JSONTaxes;
 }
 
 export interface SubscriptionsPlansListProps {
@@ -45,4 +49,11 @@ export interface SubscriptionsPlansListProps {
     page?: number;
     pageSize?: number;
     totalRequired?: boolean;
+}
+
+export interface SubscriptionsPlansListJSON {
+    plans?: SubscriptionsPlanJSON[];
+    total_items?: number;
+    total_pages?: number;
+    links?: LinksData[];
 }
