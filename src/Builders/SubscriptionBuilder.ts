@@ -1,4 +1,10 @@
-import { JSONTaxes, SubscriptionsBuilderProps, SubscriptionsStatus, Taxes } from "../types/Subscriptions";
+import {
+    JSONTaxes,
+    SubscriptionsBuilderProps,
+    SubscriptionsJSON,
+    SubscriptionsStatus,
+    Taxes
+} from "../types/Subscriptions";
 import ProductBuilder from "./ProductBuilder";
 import BillingCycleBuilder from "./BillingCycleBuilder";
 import PaymentPreferencesBuilder from "./PaymentPreferencesBuilder";
@@ -6,6 +12,7 @@ import PaypalTSError from "../Manager/Errors";
 import { BillingCycleProps } from "../types/BillingCycle";
 import { PaymentPreferencesProps } from "../types/PaymentPreferences";
 import { ProductUpdateBuilder } from "./ProductUpdateBuilder";
+import { createSubscription } from "../Functions/Subscriptions";
 
 const ALLOWS_STATUS = ["ACTIVE", "INACTIVE", "CREATED"];
 
@@ -100,6 +107,12 @@ export default class SubscriptionBuilder {
     public setPaymentPreferences(payment_preferences: PaymentPreferencesBuilder | PaymentPreferencesProps): SubscriptionBuilder {
         this.payment_preferences = (payment_preferences instanceof PaymentPreferencesBuilder) ? payment_preferences : new PaymentPreferencesBuilder(payment_preferences);
         return this;
+    }
+
+    public create(): Promise<SubscriptionsJSON> {
+        return new Promise(async (resolve, reject) => {
+            createSubscription(this.toJSON()).then(resolve).catch(reject);
+        });
     }
 
     public toJSON(): Readonly<SubscriptionsBuilderProps<'JSON'>> {
