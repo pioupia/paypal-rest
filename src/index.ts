@@ -7,6 +7,9 @@ import UnitBuilder from './Builders/UnitBuilder';
 import { CurrencyCodes } from './types/Order';
 import ProductBuilder from './Builders/ProductBuilder';
 import { createProduct, getProductDetails, getProducts, updateProductDetails } from "./Functions/Products";
+import SubscriptionBuilder from './Builders/SubscriptionBuilder';
+import BillingCycleBuilder from './Builders/BillingCycleBuilder';
+import PaymentPreferencesBuilder from './Builders/PaymentPreferencesBuilder';
 
 
 export {
@@ -14,7 +17,8 @@ export {
     auth,
     PurchaseUnitBuilder, UnitBuilder,
     ItemsBuilder, ProductBuilder,
-    CurrencyCodes
+    CurrencyCodes, SubscriptionBuilder,
+    BillingCycleBuilder, PaymentPreferencesBuilder
 };
 
 export const order = {
