@@ -5,6 +5,7 @@ import PaymentPreferencesBuilder from "./PaymentPreferencesBuilder";
 import PaypalTSError from "../Manager/Errors";
 import { BillingCycleProps } from "../types/BillingCycle";
 import { PaymentPreferencesProps } from "../types/PaymentPreferences";
+import { ProductUpdateBuilder } from "./ProductUpdateBuilder";
 
 const ALLOWS_STATUS = ["ACTIVE", "INACTIVE", "CREATED"];
 
@@ -20,7 +21,7 @@ export default class SubscriptionBuilder {
 
     constructor(data?: Partial<SubscriptionsBuilderProps>) {
         if (data?.product_id) {
-            this.product_id = (data.product_id instanceof ProductBuilder) ? data.product_id.toJSON().id : data.product_id;
+            this.product_id = (data.product_id instanceof ProductBuilder) || (data.product_id instanceof ProductUpdateBuilder) ? data.product_id.toJSON().id : data.product_id;
         }
         this.name = data?.name;
         this.billing_cycles = data?.billing_cycles?.map(billingCycle => {
@@ -33,8 +34,8 @@ export default class SubscriptionBuilder {
         this.taxes = data?.taxes;
     }
 
-    public setProductId(product_id: string | ProductBuilder): SubscriptionBuilder {
-        const id = (product_id instanceof ProductBuilder) ? product_id.toJSON().id : product_id;
+    public setProductId(product_id: string | ProductBuilder | ProductUpdateBuilder): SubscriptionBuilder {
+        const id = (product_id instanceof ProductBuilder) || (product_id instanceof ProductUpdateBuilder) ? product_id.toJSON().id : product_id;
         if (!id?.length || id.length < 6 || id.length > 50)
             throw new PaypalTSError("Invalid product_id the length must be between 6 and 50 characters.");
 
