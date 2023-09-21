@@ -19,7 +19,9 @@ export default class BillingCycleBuilder {
         this.frequency = !(data?.frequency instanceof FrequencyBuilder) ? new FrequencyBuilder(data?.frequency) : data.frequency;
         this.sequence = data?.sequence;
         this.total_cycles = data?.total_cycles;
-        this.pricing_scheme = !(data?.pricing_scheme instanceof PricingSchemeBuilder) ? new PricingSchemeBuilder(data?.pricing_scheme) : data?.pricing_scheme;
+
+        if (data?.pricing_scheme)
+            this.pricing_scheme = !(data.pricing_scheme instanceof PricingSchemeBuilder) ? new PricingSchemeBuilder(data.pricing_scheme) : data.pricing_scheme;
     }
 
     setTenureType(tenure_type: BillingCycleTenureType) {
@@ -81,6 +83,9 @@ export default class BillingCycleBuilder {
             throw new PaypalTSError(`Invalid sequence: ${this.sequence}. Allowed values: 1-99.`);
         if (typeof this.total_cycles === 'number' && (this.total_cycles < 0 || this.total_cycles > 999))
             throw new PaypalTSError(`Invalid total_cycles: ${this.total_cycles}. Allowed values: 1-999.`);
+
+        if (this.tenure_type === 'REGULAR' && !this.pricing_scheme)
+            throw new PaypalTSError('Regular billing cycle of a plan should have a pricing scheme.');
 
         this.frequency.toJSON();
         this.pricing_scheme?.toJSON();

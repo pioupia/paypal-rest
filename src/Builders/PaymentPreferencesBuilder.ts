@@ -15,7 +15,7 @@ export default class PaymentPreferencesBuilder {
         this.auto_bill_outstanding = data?.auto_bill_outstanding;
         this.setup_fee_failure_action = data?.setup_fee_failure_action;
         this.payment_failure_threshold = data?.payment_failure_threshold;
-        this.setup_fee = !(data?.setup_fee instanceof UnitBuilder) ? new UnitBuilder(data?.setup_fee) : data.setup_fee;
+        this.setup_fee = data?.setup_fee && !(data.setup_fee instanceof UnitBuilder) ? new UnitBuilder(data?.setup_fee) : (data?.setup_fee as UnitBuilder | undefined);
     }
 
     setAutoBillOutstanding(auto_bill_outstanding: boolean) {

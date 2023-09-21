@@ -12,7 +12,7 @@ export default class PricingSchemeBuilder {
 
     constructor(data?: PricingSchemeBuilderProps) {
         this.pricing_model = data?.pricing_model;
-        this.fixed_price = data?.fixed_price || new UnitBuilder();
+        this.fixed_price = data?.fixed_price;
         this.tiers = data?.tiers || [];
     }
 
@@ -66,11 +66,17 @@ export default class PricingSchemeBuilder {
         if (this.pricing_model && !ALLOWED_PRICING_MODELS.includes(this.pricing_model))
             throw new PaypalTSError(`Invalid pricing model: ${this.pricing_model}. Allowed values: ${ALLOWED_PRICING_MODELS.join(", ")}`);
 
-        if (this.pricing_model === "TIERED" && !this.tiers.length)
+        if (this.pricing_model && !this.tiers.length)
             throw new PaypalTSError("Tiers are required for tiered pricing model.");
 
-        if (this.tiers && this.tiers.length > 32)
+        if (this.tiers.length && this.tiers.length > 32)
             throw new PaypalTSError("You can only have up to 32 tiers in a pricing scheme.");
+
+        if (this.tiers.length && !this.pricing_model)
+            throw new PaypalTSError("Pricing model is required when tiers are specified.");
+
+        if (!this.pricing_model && !this.fixed_price)
+            throw new PaypalTSError("Pricing model or fixed price is required.");
 
         if (this.fixed_price)
             this.fixed_price.toJSON();
