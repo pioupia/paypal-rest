@@ -1,7 +1,7 @@
 import {
     JSONTaxes,
-    SubscriptionsBuilderProps,
-    SubscriptionsJSON,
+    SubscriptionsPlanBuilderProps,
+    SubscriptionsPlanJSON,
     SubscriptionsStatus,
     Taxes
 } from "../types/Subscriptions";
@@ -26,7 +26,7 @@ export default class SubscriptionPlanBuilder {
     private quantity_supported?: boolean;
     private taxes?: Taxes;
 
-    constructor(data?: Partial<SubscriptionsBuilderProps>) {
+    constructor(data?: Partial<SubscriptionsPlanBuilderProps>) {
         if (data?.product_id) {
             this.product_id = (data.product_id instanceof ProductBuilder) || (data.product_id instanceof ProductUpdateBuilder) ? data.product_id.toJSON().id : data.product_id;
         }
@@ -109,13 +109,13 @@ export default class SubscriptionPlanBuilder {
         return this;
     }
 
-    public create(): Promise<SubscriptionsJSON> {
+    public create(): Promise<SubscriptionsPlanJSON> {
         return new Promise(async (resolve, reject) => {
             createSubscriptionPlan(this.toJSON()).then(resolve).catch(reject);
         });
     }
 
-    public toJSON(): Readonly<SubscriptionsBuilderProps<'JSON'>> {
+    public toJSON(): Readonly<SubscriptionsPlanBuilderProps<'JSON'>> {
         this.validate();
         return {
             product_id: this.product_id!,
