@@ -69,6 +69,9 @@ export default class PricingSchemeBuilder {
         if (this.pricing_model === "TIERED" && !this.tiers.length)
             throw new PaypalTSError("Tiers are required for tiered pricing model.");
 
+        if (this.tiers && this.tiers.length > 32)
+            throw new PaypalTSError("You can only have up to 32 tiers in a pricing scheme.");
+
         if (this.fixed_price)
             this.fixed_price.toJSON();
     }
