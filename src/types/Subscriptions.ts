@@ -77,7 +77,7 @@ export type ApplicationContext = Omit<PayPalPreferences, 'landing_page' | 'user_
 
 export interface SubscriptionsBuilderProps<T extends 'Props' | 'JSON' = 'Props'> {
     plan_id: string;
-    quantity?: number;
+    quantity?: T extends 'Props' ? number : string;
     custom_id?: string;
     start_time?: string;
     shipping_amount?: T extends 'Props' ? (UnitBuilder | PurchaseUnitBuilderProps) : UnitBuilderJSON;

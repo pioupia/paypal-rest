@@ -9,8 +9,15 @@ import ProductBuilder from './Builders/ProductBuilder';
 import { createProduct, getProductDetails, getProducts, updateProductDetails } from "./Functions/Products";
 import BillingCycleBuilder from './Builders/BillingCycleBuilder';
 import PaymentPreferencesBuilder from './Builders/PaymentPreferencesBuilder';
-import { createSubscriptionPlan, getSubscriptionPlan, listSubscriptionPlan } from "./Functions/Subscriptions";
+import {
+    createSubscription,
+    createSubscriptionPlan,
+    getSubscriptionPlan,
+    listSubscriptionPlan
+} from "./Functions/Subscriptions";
 import SubscriptionPlanBuilder from './Builders/SubscriptionPlanBuilder';
+import PricingSchemeBuilder from "./Builders/PricingSchemeBuilder";
+import SubscriptionBuilder from "./Builders/SubscriptionBuilder";
 
 
 export {
@@ -39,3 +46,7 @@ export const plan = {
     list: listSubscriptionPlan,
     get: getSubscriptionPlan
 }
+
+export const subscriptions = {
+    create: createSubscription
+};
