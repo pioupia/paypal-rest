@@ -7,10 +7,10 @@ import UnitBuilder from './Builders/UnitBuilder';
 import { CurrencyCodes } from './types/Order';
 import ProductBuilder from './Builders/ProductBuilder';
 import { createProduct, getProductDetails, getProducts, updateProductDetails } from "./Functions/Products";
-import SubscriptionBuilder from './Builders/SubscriptionBuilder';
+import SubscriptionPlanBuilder from './Builders/SubscriptionPlanBuilder';
 import BillingCycleBuilder from './Builders/BillingCycleBuilder';
 import PaymentPreferencesBuilder from './Builders/PaymentPreferencesBuilder';
-import { createSubscription } from "./Functions/Subscriptions";
+import { createSubscriptionPlan } from "./Functions/Subscriptions";
 
 
 export {
@@ -18,7 +18,7 @@ export {
     auth,
     PurchaseUnitBuilder, UnitBuilder,
     ItemsBuilder, ProductBuilder,
-    CurrencyCodes, SubscriptionBuilder,
+    CurrencyCodes, SubscriptionPlanBuilder,
     BillingCycleBuilder, PaymentPreferencesBuilder
 };
 
@@ -34,6 +34,6 @@ export const product = {
     update: updateProductDetails
 };
 
-export const subscription = {
-    create: createSubscription,
+export const plan = {
+    create: createSubscriptionPlan,
 }
