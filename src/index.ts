@@ -9,7 +9,7 @@ import ProductBuilder from './Builders/ProductBuilder';
 import { createProduct, getProductDetails, getProducts, updateProductDetails } from "./Functions/Products";
 import BillingCycleBuilder from './Builders/BillingCycleBuilder';
 import PaymentPreferencesBuilder from './Builders/PaymentPreferencesBuilder';
-import { createSubscriptionPlan, listSubscriptionPlan } from "./Functions/Subscriptions";
+import { createSubscriptionPlan, getSubscriptionPlan, listSubscriptionPlan } from "./Functions/Subscriptions";
 import SubscriptionPlanBuilder from './Builders/SubscriptionPlanBuilder';
 
 
@@ -36,5 +36,6 @@ export const product = {
 
 export const plan = {
     create: createSubscriptionPlan,
-    list: listSubscriptionPlan
+    list: listSubscriptionPlan,
+    get: getSubscriptionPlan
 }
