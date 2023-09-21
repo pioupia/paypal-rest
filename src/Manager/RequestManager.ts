@@ -26,6 +26,19 @@ export default function requestManager(url: string, data: RequestManagerProps, i
         if (!data.headers.has('Authorization'))
             data.headers.set('Authorization', 'Bearer ' + access_token);
 
+        if (data.query) {
+            let query = '?';
+            for (const key in data.query) {
+                if (typeof data.query[key] === 'undefined')
+                    continue;
+
+                url += query + key + '=' + encodeURIComponent(data.query[key] as string | number | boolean);
+                query = '&';
+            }
+
+            delete data.query;
+        }
+
         try {
             const response = await fetch(base_url + url, data);
 
