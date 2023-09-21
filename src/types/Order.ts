@@ -2,8 +2,10 @@ import UnitBuilder from "../Builders/UnitBuilder";
 import PurchaseUnitBuilder from "../Builders/PurchaseUnitBuilder";
 import { LinksData } from "./index";
 
+export type AcceptedLocal = 'ar-SA' | 'bn-BD' | 'bn-IN' | 'cs-CZ' | 'da-DK' | 'de-AT' | 'de-CH' | 'de-DE' | 'el-GR' | 'en-AU' | 'en-CA' | 'en-GB' | 'en-IE' | 'en-IN' | 'en-NZ' | 'en-US' | 'en-ZA' | 'es-AR' | 'es-CL' | 'es-CO' | 'es-ES' | 'es-MX' | 'es-US' | 'fi-FI' | 'fr-BE' | 'fr-CA' | 'fr-CH' | 'fr-FR' | 'he-IL' | 'hi-IN' | 'hu-HU' | 'id-ID' | 'it-CH' | 'it-IT' | 'ja-JP' | 'ko-KR' | 'nl-BE' | 'nl-NL' | 'no-NO' | 'pl-PL' | 'pt-BR' | 'pt-PT' | 'ro-RO' | 'ru-RU' | 'sk-SK' | 'sv-SE' | 'ta-IN' | 'ta-LK' | 'th-TH' | 'tr-TR' | 'zh-CN' | 'zh-HK' | 'zh-TW';
 export type acceptedCurrencyCodes = 'AUD' | 'BRL' | 'CAD' | 'CNY' | 'CZK' | 'DKK' | 'EUR' | 'HKD' | 'HUF' | 'ILS' | 'JPY' | 'MYR' | 'MXN' | 'TWD' | 'NZD' | 'NOK' | 'PHP' | 'PLN' | 'GBP' | 'RUB' | 'SGD' | 'SEK' | 'CHF' | 'THB' | 'USD';
 export type CategoryType = 'DIGITAL_GOODS' | 'PHYSICAL_GOODS' | 'DONATION';
+export type PayeePreferred = 'UNRESTRICTED' | 'IMMEDIATE_PAYMENT_REQUIRED';
 
 export enum CurrencyCodes {
     AustralianDollar = 'AUD',
@@ -55,13 +57,13 @@ export interface ItemsBuilderProps {
 }
 
 
-interface PayPalPreferences {
+export interface PayPalPreferences {
     brand_name: string;
     shipping_preference: 'GET_FROM_FILE' | 'NO_SHIPPING' | 'SET_PROVIDED_ADDRESS';
     landing_page: 'LOGIN' | 'GUEST_CHECKOUT' | 'NO_PREFERENCE';
     user_action: 'CONTINUE' | 'PAY_NOW';
-    payment_method_preference: 'UNRESTRICTED' | 'IMMEDIATE_PAYMENT_REQUIRED';
-    locale: string;
+    payment_method_preference: PayeePreferred;
+    locale: AcceptedLocal;
     return_url: string;
     cancel_url: string;
 }

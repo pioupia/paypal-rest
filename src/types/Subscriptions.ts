@@ -5,7 +5,14 @@ import { BillingCycleProps } from "./BillingCycle";
 import ProductBuilder from "../Builders/ProductBuilder";
 import { ProductUpdateBuilder } from "../Builders/ProductUpdateBuilder";
 import { LinksData } from "./index";
-import { ProductCategory } from "./Product";
+import {
+    PayeePreferred,
+    PayPalPreferences,
+    PurchaseUnitBuilderJSON,
+    PurchaseUnitBuilderProps,
+    UnitBuilderJSON
+} from "./Order";
+import UnitBuilder from "../Builders/UnitBuilder";
 
 export type SubscriptionsStatus = "ACTIVE" | "INACTIVE" | "CREATED";
 
@@ -56,4 +63,23 @@ export interface SubscriptionsPlansListJSON {
     total_items?: number;
     total_pages?: number;
     links?: LinksData[];
+}
+
+export interface PaymentMethod {
+    payer_selected: 'PAYPAL';
+    payee_preferred: PayeePreferred;
+}
+
+export type ApplicationContext = Omit<PayPalPreferences, 'landing_page' | 'user_action' | 'payment_method_preference'> & {
+    payment_method?: PaymentMethod;
+    user_action?: 'CONTINUE' | 'SUBSCRIBE_NOW';
+};
+
+export interface SubscriptionsBuilderProps<T extends 'Props' | 'JSON' = 'Props'> {
+    plan_id: string;
+    quantity?: number;
+    custom_id?: string;
+    start_time?: string;
+    shipping_amount?: T extends 'Props' ? (UnitBuilder | PurchaseUnitBuilderProps) : UnitBuilderJSON;
+    application_context?: ApplicationContext;
 }
