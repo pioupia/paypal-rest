@@ -26,7 +26,8 @@ export {
     PurchaseUnitBuilder, UnitBuilder,
     ItemsBuilder, ProductBuilder,
     CurrencyCodes, SubscriptionPlanBuilder,
-    BillingCycleBuilder, PaymentPreferencesBuilder
+    BillingCycleBuilder, PaymentPreferencesBuilder,
+    PricingSchemeBuilder, SubscriptionBuilder
 };
 
 export const order = {
