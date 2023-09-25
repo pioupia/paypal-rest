@@ -1,11 +1,7 @@
 import UnitBuilder from "./UnitBuilder";
-import {
-    ApplicationContext,
-    SubscriptionsBuilderProps, SubscriptionsInlinePlanBuilderProps
-} from "../types/Subscriptions";
+import { ApplicationContext, SubscriptionsBuilderProps } from "../types/Subscriptions";
 import PaypalTSError from "../Manager/Errors";
 import { PurchaseUnitBuilderProps } from "../types/Order";
-import SubscriptionInlinePlanBuilder from "./SubscriptionInlinePlanBuilder";
 
 const ALLOWED_SHIPPING_PREFERENCE = ['GET_FROM_FILE', 'NO_SHIPPING', 'SET_PROVIDED_ADDRESS'];
 const ALLOWED_USER_ACTIONS = ['CONTINUE', 'SUBSCRIBE_NOW'];
@@ -18,7 +14,6 @@ export default class SubscriptionBuilder {
     private start_time?: string;
     private shipping_amount?: UnitBuilder;
     private application_context?: ApplicationContext;
-    private plan?: SubscriptionInlinePlanBuilder;
 
     constructor(data?: SubscriptionsBuilderProps) {
         this.plan_id = data?.plan_id;
@@ -30,9 +25,6 @@ export default class SubscriptionBuilder {
             this.shipping_amount = data.shipping_amount instanceof UnitBuilder ? data.shipping_amount : new UnitBuilder(data?.shipping_amount);
 
         this.application_context = data?.application_context;
-
-        if (data?.plan)
-            this.plan = data.plan instanceof SubscriptionInlinePlanBuilder ? data.plan : new SubscriptionInlinePlanBuilder(data.plan);
     }
 
     setPlanId(id: string) {
@@ -78,11 +70,6 @@ export default class SubscriptionBuilder {
         return this;
     }
 
-    setPlan(plan: SubscriptionInlinePlanBuilder | SubscriptionsInlinePlanBuilderProps) {
-        this.plan = plan instanceof SubscriptionInlinePlanBuilder ? plan : new SubscriptionInlinePlanBuilder(plan);
-        return this;
-    }
-
     toJSON(): Readonly<SubscriptionsBuilderProps<'JSON'>> {
         this.validate();
 
@@ -92,8 +79,7 @@ export default class SubscriptionBuilder {
             custom_id: this.custom_id,
             start_time: this.start_time,
             shipping_amount: this.shipping_amount?.toJSON(),
-            application_context: this.application_context,
-            plan: this.plan?.toJSON()
+            application_context: this.application_context
         });
     }
 
@@ -112,9 +98,6 @@ export default class SubscriptionBuilder {
 
         if (this.application_context)
             this.verifyApplicationContextValues(this.application_context);
-
-        if (this.plan)
-            this.plan.toJSON();
 
         this.shipping_amount?.toJSON();
     }
