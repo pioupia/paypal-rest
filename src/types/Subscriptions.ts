@@ -25,19 +25,15 @@ export interface Taxes {
 
 export type JSONTaxes = Omit<Taxes, 'percentage'> & { percentage: string };
 
-export interface SubscriptionsInlinePlanBuilderProps<T extends 'Props' | 'JSON' = 'Props'> {
-    billing_cycles: T extends 'Props' ? (BillingCycleBuilder | BillingCycleProps)[] : (BillingCycleProps<T>)[];
-    payment_preferences: T extends 'Props' ? (PaymentPreferencesBuilder | PaymentPreferencesProps) :  PaymentPreferencesProps<T>;
-    taxes?: T extends 'Props' ? Taxes : JSONTaxes;
-}
-
-
-export interface SubscriptionsPlanBuilderProps<T extends 'Props' | 'JSON' = 'Props'> extends SubscriptionsInlinePlanBuilderProps<T> {
+export interface SubscriptionsPlanBuilderProps<T extends 'Props' | 'JSON' = 'Props'> {
     product_id: T extends 'Props' ? string | ProductBuilder | ProductUpdateBuilder : string;
     name: string;
+    billing_cycles: T extends 'Props' ? (BillingCycleBuilder | BillingCycleProps)[] : (BillingCycleProps<T>)[];
+    payment_preferences: T extends 'Props' ? (PaymentPreferencesBuilder | PaymentPreferencesProps) :  PaymentPreferencesProps<T>;
     status?: SubscriptionsStatus;
     description?: string;
     quantity_supported?: boolean;
+    taxes?: T extends 'Props' ? Taxes : JSONTaxes;
 }
 
 export interface SubscriptionsPlanJSON {

@@ -18,7 +18,6 @@ import {
 import SubscriptionPlanBuilder from './Builders/SubscriptionPlanBuilder';
 import PricingSchemeBuilder from "./Builders/PricingSchemeBuilder";
 import SubscriptionBuilder from "./Builders/SubscriptionBuilder";
-import SubscriptionInlinePlanBuilder from './Builders/SubscriptionInlinePlanBuilder';
 
 
 export {
@@ -27,7 +26,6 @@ export {
     PurchaseUnitBuilder, UnitBuilder,
     ItemsBuilder, ProductBuilder,
     CurrencyCodes, SubscriptionPlanBuilder,
-    SubscriptionInlinePlanBuilder,
     BillingCycleBuilder, PaymentPreferencesBuilder,
     PricingSchemeBuilder, SubscriptionBuilder
 };
