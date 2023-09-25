@@ -15,6 +15,8 @@ import {
 import UnitBuilder from "../Builders/UnitBuilder";
 import SubscriptionInlinePlanBuilder from "../Builders/SubscriptionInlinePlanBuilder";
 
+export type SubscriptionFieldResponse = 'last_failed_payment' | 'plan';
+
 export type SubscriptionsStatus = "ACTIVE" | "INACTIVE" | "CREATED";
 
 export interface Taxes {

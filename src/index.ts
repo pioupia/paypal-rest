@@ -12,7 +12,7 @@ import PaymentPreferencesBuilder from './Builders/PaymentPreferencesBuilder';
 import {
     createSubscription,
     createSubscriptionPlan,
-    getSubscriptionPlan,
+    getSubscriptionPlan, getSubscription,
     listSubscriptionPlan
 } from "./Functions/Subscriptions";
 import SubscriptionPlanBuilder from './Builders/SubscriptionPlanBuilder';
@@ -51,5 +51,6 @@ export const plan = {
 }
 
 export const subscriptions = {
-    create: createSubscription
+    create: createSubscription,
+    get: getSubscription
 };

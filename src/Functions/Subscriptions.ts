@@ -1,4 +1,5 @@
 import {
+    SubscriptionFieldResponse,
     SubscriptionsBuilderProps,
     SubscriptionsPlanBuilderProps,
     SubscriptionsPlanJSON, SubscriptionsPlansListJSON,
@@ -79,6 +80,27 @@ export function createSubscription(subscription: SubscriptionsBuilderProps<'JSON
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(subscription)
+            });
+            return resolve(res);
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+export function getSubscription(subscriptionId: string, fields?: SubscriptionFieldResponse): Promise<any> {
+    return new Promise(async (resolve, reject) => {
+        if (typeof subscriptionId !== 'string')
+            throw new PaypalTSError('Invalid subscription ID provided.');
+        if (fields && fields !== 'last_failed_payment' && fields !== 'plan')
+            throw new PaypalTSError('Invalid fields provided. Allowed values: last_failed_payment, plan');
+
+        try {
+            const res = await requestManager('v1/billing/subscriptions/' + subscriptionId + (fields ? '?fields=' + fields : ''), {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
             return resolve(res);
         } catch (error) {
