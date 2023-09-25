@@ -16,7 +16,7 @@ export default class UnitBuilder {
     }
 
     setPrice(price: number): UnitBuilder {
-        if (!price || isNaN(price) || price < 0)
+        if (typeof price !== 'number' || isNaN(price) || price < 0)
             throw new PaypalTSError("The value field is required and should be a positive number.");
 
         if (this.currency_code && floatingCurrency.includes(this.currency_code) &&
