@@ -13,6 +13,7 @@ import {
     UnitBuilderJSON
 } from "./Order";
 import UnitBuilder from "../Builders/UnitBuilder";
+import SubscriptionInlinePlanBuilder from "../Builders/SubscriptionInlinePlanBuilder";
 
 export type SubscriptionsStatus = "ACTIVE" | "INACTIVE" | "CREATED";
 
@@ -86,4 +87,5 @@ export interface SubscriptionsBuilderProps<T extends 'Props' | 'JSON' = 'Props'>
     start_time?: string;
     shipping_amount?: T extends 'Props' ? (UnitBuilder | PurchaseUnitBuilderProps) : UnitBuilderJSON;
     application_context?: ApplicationContext;
+    plan?: T extends 'Props' ? SubscriptionInlinePlanBuilder | SubscriptionsInlinePlanBuilderProps : Partial<SubscriptionsInlinePlanBuilderProps<'JSON'>>;
 }
