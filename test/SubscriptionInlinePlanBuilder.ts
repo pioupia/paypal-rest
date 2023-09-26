@@ -1,4 +1,3 @@
-// Mock a sample data object
 import { PaymentPreferencesBuilder, SubscriptionInlinePlanBuilder } from "../src";
 import PaypalTSError from "../src/Manager/Errors";
 
@@ -73,6 +72,4 @@ describe("SubscriptionInlinePlanBuilder", () => {
             );
         }).toThrowError(PaypalTSError);
     });
-
-    // Add more test cases for other validation scenarios
 });
