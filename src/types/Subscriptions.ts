@@ -1,7 +1,7 @@
 import BillingCycleBuilder from "../Builders/BillingCycleBuilder";
 import PaymentPreferencesBuilder from "../Builders/PaymentPreferencesBuilder";
 import { PaymentPreferencesProps } from "./PaymentPreferences";
-import { BillingCycleProps } from "./BillingCycle";
+import { BillingCycleProps, InlineBillingCycleProps } from "./BillingCycle";
 import ProductBuilder from "../Builders/ProductBuilder";
 import { ProductUpdateBuilder } from "../Builders/ProductUpdateBuilder";
 import { LinksData } from "./index";
@@ -13,6 +13,7 @@ import {
     UnitBuilderJSON
 } from "./Order";
 import UnitBuilder from "../Builders/UnitBuilder";
+import SubscriptionInlinePlanBuilder from "../Builders/SubscriptionInlinePlanBuilder";
 
 export type SubscriptionFieldResponse = 'last_failed_payment' | 'plan';
 
@@ -25,15 +26,19 @@ export interface Taxes {
 
 export type JSONTaxes = Omit<Taxes, 'percentage'> & { percentage: string };
 
-export interface SubscriptionsPlanBuilderProps<T extends 'Props' | 'JSON' = 'Props'> {
+export interface SubscriptionsInlinePlanBuilderProps<T extends 'Props' | 'JSON' = 'Props'> {
+    payment_preferences?: T extends 'Props' ? (PaymentPreferencesBuilder | PaymentPreferencesProps) :  PaymentPreferencesProps<T>;
+    taxes?: T extends 'Props' ? Taxes : JSONTaxes;
+    billing_cycles?: InlineBillingCycleProps<T>[];
+}
+
+export interface SubscriptionsPlanBuilderProps<T extends 'Props' | 'JSON' = 'Props'> extends Omit<SubscriptionsInlinePlanBuilderProps<T>, 'billing_cycles'> {
     product_id: T extends 'Props' ? string | ProductBuilder | ProductUpdateBuilder : string;
     name: string;
     billing_cycles: T extends 'Props' ? (BillingCycleBuilder | BillingCycleProps)[] : (BillingCycleProps<T>)[];
-    payment_preferences: T extends 'Props' ? (PaymentPreferencesBuilder | PaymentPreferencesProps) :  PaymentPreferencesProps<T>;
     status?: SubscriptionsStatus;
     description?: string;
     quantity_supported?: boolean;
-    taxes?: T extends 'Props' ? Taxes : JSONTaxes;
 }
 
 export interface SubscriptionsPlanJSON {
@@ -84,4 +89,5 @@ export interface SubscriptionsBuilderProps<T extends 'Props' | 'JSON' = 'Props'>
     start_time?: string;
     shipping_amount?: T extends 'Props' ? (UnitBuilder | PurchaseUnitBuilderProps) : UnitBuilderJSON;
     application_context?: ApplicationContext;
+    plan?: T extends 'Props' ? (SubscriptionInlinePlanBuilder | SubscriptionsInlinePlanBuilderProps<T>) : SubscriptionsInlinePlanBuilderProps<T>;
 }
