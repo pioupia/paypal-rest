@@ -18,6 +18,7 @@ import {
 import SubscriptionPlanBuilder from './Builders/SubscriptionPlanBuilder';
 import PricingSchemeBuilder from "./Builders/PricingSchemeBuilder";
 import SubscriptionBuilder from "./Builders/SubscriptionBuilder";
+import SubscriptionInlinePlanBuilder from './Builders/SubscriptionInlinePlanBuilder';
 
 
 export {
@@ -27,7 +28,8 @@ export {
     ItemsBuilder, ProductBuilder,
     CurrencyCodes, SubscriptionPlanBuilder,
     BillingCycleBuilder, PaymentPreferencesBuilder,
-    PricingSchemeBuilder, SubscriptionBuilder
+    PricingSchemeBuilder, SubscriptionBuilder,
+    SubscriptionInlinePlanBuilder
 };
 
 export const order = {
