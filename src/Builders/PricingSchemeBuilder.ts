@@ -12,8 +12,10 @@ export default class PricingSchemeBuilder {
 
     constructor(data?: PricingSchemeBuilderProps) {
         this.pricing_model = data?.pricing_model;
-        this.fixed_price = data?.fixed_price;
         this.tiers = data?.tiers || [];
+
+        if (data?.fixed_price)
+            this.fixed_price = (data.fixed_price instanceof UnitBuilder) ? data.fixed_price : new UnitBuilder(data.fixed_price);
     }
 
     setPriceModel(pricing_model: PricingModel) {

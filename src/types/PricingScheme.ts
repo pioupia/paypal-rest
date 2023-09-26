@@ -1,5 +1,5 @@
 import UnitBuilder from "../Builders/UnitBuilder";
-import { UnitBuilderJSON } from "./Order";
+import { PurchaseUnitBuilderProps, UnitBuilderJSON } from "./Order";
 
 export type PricingModel = "TIERED" | "VOLUME";
 export interface PricingSchemeTiers {
@@ -16,7 +16,7 @@ export interface PricingSchemeTiersJSON {
 
 export interface PricingSchemeBuilderProps {
     pricing_model?: PricingModel;
-    fixed_price?: UnitBuilder;
+    fixed_price?: UnitBuilder | PurchaseUnitBuilderProps;
     tiers?: PricingSchemeTiers[];
 }
 
